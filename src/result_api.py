@@ -1,14 +1,16 @@
-@"
-def get_student_result(student_id):
-    if not student_id:
-        raise ValueError("student_id is required")
+﻿def get_student_result(marks):
+    if len(marks) != 5:
+        raise ValueError("Exactly five marks are required")
+
+    if any(mark < 0 or mark > 100 for mark in marks):
+        raise ValueError("Each mark must be between 0 and 100")
+
+    total = sum(marks)
+    percentage = total / 5
 
     return {
-        "student_id": student_id,
-        "status": "success",
-        "result": {
-            "score": 82,
-            "grade": "A"
-        }
+        "marks": marks,
+        "total": total,
+        "percentage": percentage,
+        "passed": all(mark >= 40 for mark in marks),
     }
-"@ | Set-Content src/result_api.py
